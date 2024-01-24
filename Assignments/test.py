@@ -1,41 +1,23 @@
 #begin
 
-def fillList(list):
-    total = int(input("how many numbers would you like to enter: "))
-    count = 0
-    while(count < total):
-        number = getNum()
-        list.append(number)
-        print("added",number, "to the list.")
+def swap(list, i, j):
+    print("moving ", list[i], "to ", list[j])
+    temp = list[i]
+    list[i] = list[j]
+    list[j] = temp
 
-        count = count+1
-    
-def getNum():
-    number = int(input("please enter a number: "))
-    return number
+def bubblesort(list):
+    min = list[0]
+    minPos = 0
+    for x in range(len(list)):
+        for y in range(len(list)):
+            if(list[y] < min):
+                min = list[y]
+                minPos = y
+                swap(list, x, minPos)  
 
-def printList(list):
-    print("printing list...")
-    for numbers in range(len(list)):
-        print(list[numbers])
+nums = [1, 56, 23, 144, 12]
 
-def findSum(list):
-    sum = 0
-    for number in range(len(list)):
-        sum = sum + list[number]
-    return sum
-        
-
-nums = []
-
-fillList(nums)
-printList(nums)
-print("now printing with the sorted list...")
-nums.sort()
-printList(nums)
-print("the sum of the list is: ", findSum(nums))
-
-
-
-
-
+print(nums)
+bubblesort(nums)
+print(nums)
