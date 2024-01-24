@@ -26,10 +26,12 @@ def findSum(list):
     return sum
         
 
-
-
 nums = []
+
 fillList(nums)
+printList(nums)
+print("now printing with the sorted list...")
+nums.sort()
 printList(nums)
 print("the sum of the list is: ", findSum(nums))
 
