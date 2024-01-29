@@ -1,10 +1,16 @@
+#pragma once
 using namespace std;
 
-//creating struct for the nodes
+//creating a struct for the nodes
 struct Node
 {
     int element;
-    int *ptr;
+    Node* next;
+    Node(int ele)
+    {
+        element = ele;
+        next = nullptr;
+    }
 };
 
 //class initialization
@@ -12,13 +18,13 @@ class Vector
 {
     private:
         //declaring private member variables
-        int front, rear;
-        Node node;
+        Node* front;
+        Node* rear;
     public:
         //declaring constructors
-        void Vector();
-        void Vector(const int &f, const int &r);
-        Vector Vector(const int &vect);
+        Vector();
+        Vector(const int arr[], const int& size);
+        Vector(const int &vect);
 
         //declaring all push functions
         void pushFront(const int &value);
