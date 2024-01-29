@@ -14,7 +14,7 @@ struct Node
 };
 
 //class initialization
-class Vector
+class listVector
 {
     private:
         //declaring private member variables
@@ -22,15 +22,15 @@ class Vector
         Node* rear;
     public:
         //declaring constructors
-        Vector();
-        Vector(const int arr[], const int& size);
-        Vector(const int &vect);
+        listVector();
+        listVector(const int arr[], const int& size);
+        listVector(const int &vect);
 
         //declaring all push functions
         void pushFront(const int &value);
-        void pushFront(const Vector &vect);
+        void pushFront(const listVector &vect);
         void pushRear(const int &value);
-        void pushRear(const Vector &vect);
+        void pushRear(const listVector &vect);
         void pushAt(const int &location, const int &value);
         void inOrderPush(const int &value);
 
