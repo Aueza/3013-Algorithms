@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 
 using namespace std;
 
@@ -7,7 +8,7 @@ struct Node
 {
     int element;
     Node* next;
-    Node(int ele)
+     Node(int ele)
     {
         element = ele;
         next = nullptr;
@@ -25,13 +26,14 @@ class listVector
         //declaring constructors
         listVector();
         listVector(const int arr[], const int& size);
-        listVector(const int &vect);
+        listVector(ifstream &infile);
+        listVector(listVector &other);
 
         //declaring all push functions
         void pushFront(const int &value);
-        void pushFront(const listVector &vect);
+        void pushFront(listVector &other);
         void pushRear(const int &value);
-        void pushRear(const listVector &vect);
+        void pushRear(listVector &other);
         void pushAt(const int &location, const int &value);
         void inOrderPush(const int &value);
 
@@ -40,18 +42,25 @@ class listVector
         int popRear();
         int popAt(const int &location);
         int find(const int &value);
+
+        void print();
 };
 
 int main()
 {
-    listVector test;
-    test.pushFront(10);
-    test.pushRear(5);
-    test.pushFront(2);
+    ifstream infile;
+    infile.open("test.dat");
 
-    int num1 = test.popRear();
-    int num2 = test.popRear();
-    cout << num1 << " " << num2;
+    int testArr[] = { 2, 4, 6, 8, 10 };
+
+    listVector test(testArr, 5);
+    test.print();
+
+    listVector test2(test);
+    test2.print();
+
+    test.pushFront(15);
+    test.print();
 }
 
 listVector::listVector()
@@ -61,50 +70,94 @@ listVector::listVector()
 
 listVector::listVector(const int arr[], const int& size)
 {
+    front = rear = nullptr;
 
+    for(int i = 0; i < size; i++)
+    {
+        if(!front && !rear)
+        {
+            pushFront(arr[i]);
+        }
+        else
+        {
+            pushRear(arr[i]);
+        }
+    }
 }
 
-listVector::listVector(const int &vect)
+listVector::listVector(ifstream &infile)
 {
+    front = rear = nullptr;
+    int value = 0;
+    while(!infile.eof())
+    {
+        infile >> value;
+        if(!front && !rear)
+        {
+            pushFront(value);
+        }
+        else
+        {
+            pushRear(value);
+        }
+    }
+}
 
+listVector::listVector(listVector &other)
+{
+    front = rear = nullptr;
+    Node* travel = other.front;
+    while(travel->next != NULL)
+    {
+        pushFront(other.popRear());
+    }
+    pushFront(other.popFront());
 }
 
 //declaring all push functions
 void listVector::pushFront(const int &value)
 {
     Node* temp = new Node(value);
-    if(!front && !rear)
-    {
-        front = rear = temp;
-    }
-    else
-    {
-        temp->next = front;
-        front = temp;
-    }
+    temp->next = front;
+    front = temp;
 }
         
-void listVector::pushFront(const listVector &vect)
+void listVector::pushFront(listVector &other)
 {
-
+    Node* travel = other.front;
+    while(travel->next != NULL)
+    {
+        pushFront(other.popRear());
+    }
+    pushFront(other.popFront());
 }
         
 void listVector::pushRear(const int &value)
 {
     Node* temp = new Node(value);
-    rear->next = temp;
-    rear = temp;
-    cout << "rear is now..." << rear->element << endl;
+    Node* travel = front;
+    if(!front && !rear)
+    {
+        front->next = temp;
+        rear = temp;
+    }
+    while(travel->next != NULL)
+    {
+        travel = travel->next;
+    }
+    travel->next = temp;
+    rear = travel->next;
 }
         
-void listVector::pushRear(const listVector &vect)
+void listVector::pushRear(listVector &other)
 {
 
 }
         
 void listVector::pushAt(const int &location, const int &value)
 {
-
+    Node* temp = new Node(value);
+    Node* travel = front;
 }
         
 void listVector::inOrderPush(const int &value)
@@ -115,34 +168,29 @@ void listVector::inOrderPush(const int &value)
 //declaring all pop functions
 int listVector::popFront()
 {
+    if(!front && !rear)
+    {
+        return front->element;
+    }
     int tempVal = front->element;
     Node* temp = front;
     front = front->next;
-    delete temp;
     return tempVal;
 }
         
 int listVector::popRear()
 {
-    int tempVal = rear->element;
-    Node* traveler = front;
-
-    while(traveler)
+    Node* travel = front;
+    while(travel->next->next != NULL)
     {
-        if(traveler->next = rear)
-        {
-            rear = traveler;
-            cout << "rear now pointing to..." << rear->element << endl;
-            delete traveler;
-            
-        }
-        else
-        {
-            traveler = traveler->next;
-            cout << "traveling to..." << traveler->element << endl;
-        }      
+        travel = travel->next;
     }
+    rear = travel->next;
+    travel->next = NULL;
+    int tempVal = rear->element;
+    rear = travel;
     return tempVal;
+
 }
         
 int listVector::popAt(const int &location)
@@ -154,3 +202,15 @@ int listVector::find(const int &value)
 {
     return -1;
 }
+
+void listVector::print(){
+    Node* travel = front;
+    while(travel){
+      cout<<travel->element;
+      if(travel->next){
+        cout<<"->";
+      }
+      travel = travel->next;
+    }
+    cout<<endl<<endl;
+  }
