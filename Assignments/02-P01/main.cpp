@@ -44,6 +44,7 @@ class listVector
         int find(const int &value);
 
         void print();
+        void sort();
 };
 
 int main()
@@ -51,14 +52,13 @@ int main()
     ifstream infile;
     infile.open("test.dat");
 
-    int testArr[] = { 2, 4, 6, 8, 10 };
+    int testArr[] = { 65, 23, 6, 54, 10 };
 
     listVector test(testArr, 5);
     test.print();
 
-    test.pushAt(5, 100);
+    test.sort();
     test.print();
-
 }
 
 listVector::listVector()
@@ -101,13 +101,18 @@ listVector::listVector(ifstream &infile)
     }
 }
 
-//not complete
 listVector::listVector(listVector &other)
 {
     front = rear = nullptr;
     Node* travel = other.front;
+
+    if(!front && !rear)
+        {
+            pushFront(travel->element);
+            travel = travel->next;
+        }
     
-    while(travel->next != NULL)
+    while(travel)
     {
         pushRear(travel->element);
         travel = travel->next;
@@ -126,11 +131,14 @@ void listVector::pushFront(const int &value)
 void listVector::pushFront(listVector &other)
 {
     Node* travel = other.front;
-    while(travel->next != NULL)
+    int index = 0;
+    while(travel)
     {
-        pushFront(other.popRear());
+       int tempVal = travel->element;
+       pushAt(index, tempVal);
+       travel = travel->next;
+       index++;
     }
-    pushFront(other.popFront());
 }
 
 void listVector::pushRear(const int &value)
@@ -152,9 +160,14 @@ void listVector::pushRear(const int &value)
         
 void listVector::pushRear(listVector &other)
 {
-
+    Node* travel = other.front;
+    while(travel)
+    {
+       pushRear(travel->element);
+       travel = travel->next;
+    }
 }
-        
+
 void listVector::pushAt(const int &location, const int &value)
 {
     Node* temp = new Node(value);
@@ -163,22 +176,29 @@ void listVector::pushAt(const int &location, const int &value)
 
     if(location == 0)
     {
-        temp->next = front->next;
+        temp->next = front;
         front = temp;
-    }
-
-    for(int i = 0; i < location; i++)
+        return;
+    }  
+    if(location != 0)
     {
-        if(travel == NULL)
-            cout << "unable to access location " << location << endl;
-        else
+        for(int i = 0; i < location; i++)
         {
-            previous = travel;
-            travel = travel->next;
+       
+            if(travel == NULL)
+            {
+                cout << "unable to access location " << location << endl;
+                return;
+            }
+            else
+            {
+                previous = travel;
+                travel = travel->next;
+            }
         }
-    }
+    } 
     
-    if(travel == rear)
+    if(previous == rear)
     {
         temp->next = travel;
         previous->next = temp;
@@ -224,15 +244,66 @@ int listVector::popRear()
         
 int listVector::popAt(const int &location)
 {
-    return -1;
+    Node* previous = front;
+    Node* travel = front;
+
+    if(location == 0)
+    {
+        return popFront();
+    }
+
+    if(location != 0)
+    {
+        for(int i = 0; i < location; i++)
+        {
+       
+            if(travel->next == NULL)
+            {
+                return -1;
+            }
+            else
+            {
+                previous = travel;
+                travel = travel->next;
+            }
+        }
+    } 
+    
+    if(previous == rear)
+    {
+        int tempVal = popRear();
+        previous = rear;
+        return tempVal;
+    }
+    
+    previous->next = travel->next;
+    return travel->element;
+    delete travel;
+
 }
         
 int listVector::find(const int &value)
 {
+    Node* travel = front;
+    int key = value;
+    int indexCount = 0;
+    while(travel)
+    {
+        if(travel->element == key)
+        {
+            return indexCount;
+        }
+        else
+        {
+            indexCount++;
+            travel = travel->next;
+        }
+    }
     return -1;
 }
 
-void listVector::print(){
+void listVector::print()
+{
     Node* travel = front;
     while(travel){
       cout<<travel->element;
@@ -243,3 +314,8 @@ void listVector::print(){
     }
     cout<<endl<<endl;
   }
+
+void listVector::sort()
+{
+    
+}
