@@ -56,11 +56,9 @@ int main()
     listVector test(testArr, 5);
     test.print();
 
-    listVector test2(test);
-    test2.print();
-
-    test.pushFront(15);
+    test.pushAt(5, 100);
     test.print();
+
 }
 
 listVector::listVector()
@@ -103,15 +101,17 @@ listVector::listVector(ifstream &infile)
     }
 }
 
+//not complete
 listVector::listVector(listVector &other)
 {
     front = rear = nullptr;
     Node* travel = other.front;
+    
     while(travel->next != NULL)
     {
-        pushFront(other.popRear());
+        pushRear(travel->element);
+        travel = travel->next;
     }
-    pushFront(other.popFront());
 }
 
 //declaring all push functions
@@ -121,7 +121,8 @@ void listVector::pushFront(const int &value)
     temp->next = front;
     front = temp;
 }
-        
+
+//need to change from pop to ->element
 void listVector::pushFront(listVector &other)
 {
     Node* travel = other.front;
@@ -131,14 +132,14 @@ void listVector::pushFront(listVector &other)
     }
     pushFront(other.popFront());
 }
-        
+
 void listVector::pushRear(const int &value)
 {
     Node* temp = new Node(value);
     Node* travel = front;
-    if(!front && !rear)
+    if(front == NULL)
     {
-        front->next = temp;
+        front = temp;
         rear = temp;
     }
     while(travel->next != NULL)
@@ -146,7 +147,7 @@ void listVector::pushRear(const int &value)
         travel = travel->next;
     }
     travel->next = temp;
-    rear = travel->next;
+    rear = temp;
 }
         
 void listVector::pushRear(listVector &other)
@@ -157,7 +158,35 @@ void listVector::pushRear(listVector &other)
 void listVector::pushAt(const int &location, const int &value)
 {
     Node* temp = new Node(value);
+    Node* previous = front;
     Node* travel = front;
+
+    if(location == 0)
+    {
+        temp->next = front->next;
+        front = temp;
+    }
+
+    for(int i = 0; i < location; i++)
+    {
+        if(travel == NULL)
+            cout << "unable to access location " << location << endl;
+        else
+        {
+            previous = travel;
+            travel = travel->next;
+        }
+    }
+    
+    if(travel == rear)
+    {
+        temp->next = travel;
+        previous->next = temp;
+        rear = temp;
+        cout << "rear = " << rear->element << endl;
+    }
+    temp->next = travel;
+    previous->next = temp;
 }
         
 void listVector::inOrderPush(const int &value)
