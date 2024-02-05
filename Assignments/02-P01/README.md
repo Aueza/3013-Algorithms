@@ -2,7 +2,7 @@
 ### Ethan Saenz
 ### Description:
 
-This program will create a linked list based Vector class that will include the functionality listed below. This is achieved by writing methods to add values, remove values, and maintain sorted values if needed. This class also has the ability to be initialized with different data sources (files, other vectors, and arrays).
+This program will create a linked list-based Vector class that will include the functionality listed below. This is achieved by writing methods to add, remove, and maintain sorted values if needed. This class also can be initialized with different data sources (files, other vectors, and arrays).
 
 
 
@@ -10,23 +10,20 @@ This program will create a linked list based Vector class that will include the 
 
 |   #   | File             | Description                                        |
 | :---: | ---------------- | -------------------------------------------------- |
-|   1   | Main.cpp         | Main driver of my project that launches program.      |
-|   2   | HelperClass.cpp  |          |
-|   3   | TextureClass.cpp |  |
+|   1   | Main. cpp         | Main driver of my project that launches the program.      |
 
 ### Instructions
 
-- Make sure you install library .cpp files
-- My program expects two parameters to be placed on the command line when you run the program.
-- Parameters `<input file> <number of players>`
-- The input file should be formatted with a players name and age on a seperate line:
+- Make sure you install main.cpp files
+- My program expects no parameters to be placed on the command line when you run the program.
+- The input file should be formatted with numbers intended to fill the listVector followed by a space
 
 +------------+
-| name1 age1 |
-| name2 age2 |
-| etc...     |
+
+| 1 2 3 4 5  |
+
 +------------+
 
 - Example Command:
-    - 
+    - N/A
     - 
