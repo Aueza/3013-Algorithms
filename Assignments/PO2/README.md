@@ -25,5 +25,14 @@ This program will create a JSON object using the provided dictionary.json file, 
 - To terminate without finding a word, enter 'Z'.
 
 
-- Example Command:
-    - N/A
+### Output Examples
+
+<img width="1101" alt="Screen Shot 2024-03-01 at 10 11 43 AM" src="https://github.com/Aueza/3013-Algorithms/assets/134173034/0f60cfc4-588d-4400-b763-fd5f28dcc2ae">
+
+<img width="1101" alt="Screen Shot 2024-03-01 at 10 11 15 AM" src="https://github.com/Aueza/3013-Algorithms/assets/134173034/b82737fc-a0f2-4fe2-9361-a4293802dd1b">
+
+<img width="1097" alt="Screen Shot 2024-03-01 at 10 10 47 AM" src="https://github.com/Aueza/3013-Algorithms/assets/134173034/2088982c-b17a-457b-aae2-ff8bbf1b1752">
+
+<img width="1101" alt="Screen Shot 2024-03-01 at 10 08 54 AM" src="https://github.com/Aueza/3013-Algorithms/assets/134173034/1b19f9d6-6ff6-4d54-bb84-336c3436fefd">
+
+
