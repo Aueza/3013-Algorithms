@@ -67,19 +67,19 @@ vector<string> partialMatch(nlohmann::json array, string substring) {
     return matches;
   }
 
-  for (auto &element : array.items()) {
+  for (auto &element : array.items()) {       //iterate for all elements in the json file
       string key = element.key();
 
       // Check if the key contains the partialKey substring
       if (key.find(substring) != string::npos) {
         for(int i = 0; i < substring.length(); i++){
-          if(key[i] == substring[i] && i == substring.length() - 1){
-            matches.push_back(key);      //need to check for only prefix
+          if(key[i] == substring[i] && i == substring.length() - 1){  //checking if the substring matches the prefix
+            matches.push_back(key);      //adding key to matches
           }
-          else if(key[i] == substring[i] && i != substring.length() - 1){
-            
+          //check if substr matches prefix, but not the entire substr has been checked
+          else if(key[i] == substring[i] && i != substring.length() - 1){   
           }
-          else{
+          else{                         // if substr does not match, break out
             break;
           }
         }
@@ -272,7 +272,7 @@ int main() {
   char k;                          // holder for character being typed
   string key;                      // string version of char for printing
   string substr = "";   
-  nlohmann::json myJSON = loadJsonFile("./data/dictionary.json");
+  nlohmann::json myJSON = loadJsonFile("./data/dictionary.json"); // pathing the json file to a variable
                                   // var to concatenate letters to
   //vector<string> animals = loadAnimalsFast(); // array of animal names
   vector<string> matches; // any matches found in vector of animals
@@ -318,10 +318,10 @@ int main() {
       deleting = false;
       // Make sure a letter was pressed and only letter
       if (!isalpha(k)) {
-        if((int)k == 32){
-          substr += "";
+        if((int)k == 32){           // checking if user used the space bar
+          substr += "";             // adding the space to the substring
         }
-        else{
+        else{                       // if not alphabet, print error message
           errorMessage("Letters only!");
         }
         continue;
@@ -357,7 +357,7 @@ int main() {
         c = tolower(c);
       // This prints out all found matches
       for (int i = 0; i < matches.size(); i++) {
-        if(i == 10)
+        if(i == 10)         // only printing out first 10 matches found
           break;
         // find the substring in the substr
         loc = matches[i].find(substr);
@@ -370,7 +370,7 @@ int main() {
       cout << fg::reset << endl << endl << endl << endl;
       if (matches.size() == 1) {
         cout << "done? (hit enter)" << endl;
-        // this isn't handled at all, just messin around
+        // if user has reached one word, and hitting enter to end program
       }
     }
   }
