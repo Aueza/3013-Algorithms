@@ -297,9 +297,16 @@ int main() {
     clearConsole();
     titleBar("Getch Example", console_size.width);
     printMenu(mainMenu);
+    //checking if the user pressed enter and there is only one result
     if((int)k == 10 && matches.size() == 1){
       break;
     }
+
+    //checking if the user pressed the space key
+    if((int)k == 32){
+      substr += " ";
+    }
+
     // Tests for a backspace and if pressed deletes
     // last letter from "substr".
     if ((int)k == 127) {
@@ -311,7 +318,12 @@ int main() {
       deleting = false;
       // Make sure a letter was pressed and only letter
       if (!isalpha(k)) {
-        errorMessage("Letters only!");
+        if((int)k == 32){
+          substr += "";
+        }
+        else{
+          errorMessage("Letters only!");
+        }
         continue;
       }
 
