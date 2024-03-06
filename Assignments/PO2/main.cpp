@@ -1,4 +1,11 @@
-/**
+ /*
+ *  Author:           Ethan Saenz
+ *  Email:            ethacs18@gmail.com
+ *  Label:            P02
+ *  Title:            Linear Search Using Json and Getch
+ *  Course:           CMPS 3013
+ *  Semester:         Spring 24
+
  * This program uses a "getch" function which means "get character".
  * However, getch does not print the character to the terminal, it
  * lets you decide what to do based on what character you are pressing.
@@ -49,10 +56,11 @@ consoleSize console_size; // used to store the size of console (width=cols and
  * partialMatch
  *
  * Description:
- *      Finds partial matches in an array of strings and returns them. It
- *      doesn't matter where in the string the match is.
+ *      Finds partial matches in a json and returns them. It
+ *      does matter where in the string the match is, only returns
+ *      those found with the match as the prefix.
  * Params:
- *      vector<string>  array       - array to search
+ *      json            array       - json to search
  *      string          substring   - substring to search for in each word
  *
  * Returns:
@@ -85,14 +93,6 @@ vector<string> partialMatch(nlohmann::json array, string substring) {
         }
       }
   }
-/*
-  for (int i = 0; i < array.size(); i++) { // loop through array
-    found = array[i].find(substring);      // check for substr match
-    if (found != string::npos) {           // if found >= 0 (its found then)
-      matches.push_back(array[i]);         // add to matches
-    }
-  }
-*/
   return matches;
 }
 
@@ -232,6 +232,16 @@ void saveWords(json j) {
     }
 }
 
+/**
+ * loadJsonFile
+ *
+ * Description:
+ *      Opens a json file
+ * Params:
+ *      string filepath - path to the json file to open
+ * Returns:
+ *      json variable that contains the file opened
+ */
 json loadJsonFile(string filePath) {
 
     // Load your JSON object as shown in previous examples
@@ -245,26 +255,30 @@ json loadJsonFile(string filePath) {
         cerr << "Failed to open file: " << filePath << endl;
         return 1;
     }
-    /*
-    // The substring you are looking for in the keys
-    //if (argc == 1)
-        //partialKey = "axal";
-    //else
-        //partialKey = argv[1];
-
-    // Iterate over all key-value pairs
-    for (auto &element : myJson.items()) {
-        string key = element.key();
-
-        // Check if the key contains the partialKey substring
-        if (key.find(partialKey) != string::npos) {
-            // Found a match, do something with it
-            cout << "Found partial match: " << key << " -> " << element.value() << endl;
-        }
-    }
-    */
-
     return myJson;
+}
+
+/**
+ * printDef
+ *
+ * Description:
+ *      Prints the definition of a word to the console
+ * Params:
+ *      json array - json to search through
+ *      string substring - current string entered by the user
+ * Returns:
+ *      void
+ */
+void printDef(nlohmann::json array, string substring){
+  for (auto &element : array.items()) {       //iterate for all elements in the json file
+      string key = element.key();
+
+      // Check if the key contains the partialKey substring
+      if (key.find(substring) != string::npos) {
+        //printing the definition of the word
+        cout << key << " -> " << element.value() << endl;
+      }
+  }
 }
 
 int main() {
@@ -297,8 +311,9 @@ int main() {
     clearConsole();
     titleBar("Getch Example", console_size.width);
     printMenu(mainMenu);
-    //checking if the user pressed enter and there is only one result
+    // Checking if the user pressed enter and there is only one result
     if((int)k == 10 && matches.size() == 1){
+      printDef(myJSON, substr); // Printing the definition to the found word then breaking out of the loop
       break;
     }
 
